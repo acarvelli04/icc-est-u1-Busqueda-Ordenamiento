@@ -30,5 +30,13 @@ public class View {
 
     }
 
+    public int inputAge(){
+
+    }
+
+    public String inputName(){
+        
+    }
+
 
 }
