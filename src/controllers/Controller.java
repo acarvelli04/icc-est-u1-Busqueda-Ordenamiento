@@ -4,17 +4,18 @@ import models.Person;
 import views.View;
 
 public class Controller {
+
     private View view;
-    private SortingMethods sortingMethods;
-    private SearchMethods searchMethods;
+    private SortingMethods sorter;
+    private SearchMethods searcher;
 
     private Person[] people = new Person[100];
     private int count = 0;
 
-    public Controller(View view, SortingMethods sortingMethods, SearchMethods searchMethods){
+    public Controller(View view, SortingMethods sorter, SearchMethods searcher){
         this.view = view;
-        this.sortingMethods = sortingMethods;
-        this.searchMethods = searchMethods;
+        this.sorter = sorter;
+        this.searcher = searcher;
     }
 
     public void start(){
@@ -27,12 +28,15 @@ public class Controller {
                 case 1:
                     addPerson();
                     break;
+
                 case 2:
                     sortPersons();
                     break;
+
                 case 3:
                     searchPerson();
                     break;
+
                 case 4:
                     view.displayPersons(people, count);
                     break;
@@ -48,32 +52,39 @@ public class Controller {
 
     private void sortPersons(){
         int opt = view.selectSortingMethod();
-        if(opt == 1) sorter.sortByName(people, count);
-        else sorter.sortByAge(people, count);
 
-        System.out.println("Ordenado correctamente.");
+        if (opt == 1)
+            sorter.sortByNameWithBubble(people, count);
+
+        else if (opt == 2)
+            sorter.sortByNameWithInsertion(people, count);
+
+        else if (opt == 3)
+            sorter.sortByAgeWithBubble(people, count);
+
+        System.out.println("\nOrdenado correctamente.");
     }
 
     private void searchPerson(){
         int opt = view.selectSearchCriterion();
         Person result = null;
 
-        if(opt == 1){
-            if(!searcher.isSortedByName(people, count)){
-                sorter.sortByName(people, count);
+        if (opt == 1){
+            if (!searcher.isSortedByName(people, count)){
+                sorter.sortByNameWithBubble(people, count);
             }
-            result = searcher.binarySearchByName(people, count, view.inputName());
+            String name = view.inputName();
+            result = searcher.binarySearchByName(people, count, name);
+
         } else {
-            if(!searcher.isSortedByAge(people, count)){
-                sorter.sortByAge(people, count);
+            if (!searcher.isSortedByAge(people, count)){
+                sorter.sortByAgeWithBubble(people, count);
             }
-            result = searcher.binarySearchByAge(people, count, view.inputAge());
+            int age = view.inputAge();
+            result = searcher.binarySearchByAge(people, count, age);
         }
 
         view.displaySearchResult(result);
     }
-
-    
-    
-
 }
+

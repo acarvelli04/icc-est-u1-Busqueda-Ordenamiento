@@ -1,9 +1,11 @@
 package views;
+
 import java.util.Scanner;
 import models.Person;
 
 public class View {
-    private Scanner scanner = new Scanner(System.in);
+
+    Scanner sc = new Scanner(System.in);
 
     public int showMenu(){
         System.out.println("\n--- MENÚ ---");
@@ -13,24 +15,27 @@ public class View {
         System.out.println("4. Mostrar personas");
         System.out.println("5. Salir");
         System.out.print("Opción: ");
-        return scanner.nextInt();
+        return sc.nextInt();
     }
 
     public Person inputPerson(){
-        scanner.nextLine();
-        System.out.print("Ingrese el nombre: ");
-        String name = scanner.nextLine();
-        System.out.print("Ingrese la edad: ");
-        int age = scanner.nextInt();
+        sc.nextLine();
+        System.out.print("Nombre: ");
+        String name = sc.nextLine();
+
+        System.out.print("Edad: ");
+        int age = sc.nextInt();
+
         return new Person(name, age);
     }
 
     public int selectSortingMethod(){
         System.out.println("\nMétodo de ordenamiento:");
-        System.out.println("1. Por nombre (Burbuja)");
-        System.out.println("2. Por edad (Inserción)");
+        System.out.println("1. Burbuja por nombre");
+        System.out.println("2. Inserción por nombre");
+        System.out.println("3. Burbuja por edad");
         System.out.print("Opción: ");
-        return scanner.nextInt();
+        return sc.nextInt();
     }
 
     public int selectSearchCriterion(){
@@ -38,38 +43,34 @@ public class View {
         System.out.println("1. Nombre");
         System.out.println("2. Edad");
         System.out.print("Opción: ");
-        return scanner.nextInt();
+        return sc.nextInt();
     }
 
-    public void displaySearchResult(Person[] persons){
-        if (persons == null) {
-            System.out.println("Persona no encontrada.");
-        } else {
-            System.out.println("Persona encontrada: " + persons);
-        }
-    }
-
-    public void displayPersons(Person[] persons){
-        if(persons.length == 0){
-            System.out.println("No hay personas.");
-            return;
-        }
-        System.out.println("\n--- LISTA ---");
-        for(int i = 0; i < count; i++){
-            System.out.println(people[i]);
-        }
+    public String inputName(){
+        sc.nextLine();
+        System.out.print("Nombre a buscar: ");
+        return sc.nextLine();
     }
 
     public int inputAge(){
         System.out.print("Edad a buscar: ");
-        return scanner.nextInt();
+        return sc.nextInt();
     }
 
-    public String inputName(){
-        scanner.nextLine();
-        System.out.print("Nombre a buscar: ");
-        return scanner.nextLine();
+    public void displayPersons(Person[] people, int count){
+        System.out.println("\n--- LISTA DE PERSONAS ---");
+        if (count == 0){
+            System.out.println("No hay personas registradas.");
+            return;
+        }
+        for (int i = 0; i < count; i++){
+            System.out.println(people[i]);
+        }
     }
 
-
+    public void displaySearchResult(Person p){
+        if(p == null) System.out.println("No encontrado.");
+        else System.out.println("Encontrado: " + p);
+    }
 }
+
